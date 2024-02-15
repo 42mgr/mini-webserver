@@ -1,4 +1,6 @@
 #include "Server.hpp"
+#include "../HandlerResponder/Request.hpp"
+#include "../HandlerResponder/Response.hpp"
 
 void NTW::Server::accepter()
 {
@@ -21,7 +23,11 @@ void NTW::Server::accepter()
 
 void NTW::Server::handler()
 {
-     std::cout << buffer << std::endl;
+    std::cout << buffer << std::endl;
+    Request req(buffer);
+    Response res(req);
+    std::string response = res.createHTTPResponse();
+    send(new_socket, response.c_str(), response.length(), 0);
 }
 
 void NTW::Server::responder()
@@ -32,7 +38,7 @@ void NTW::Server::responder()
     buffer << file.rdbuf();
     std::string contents = buffer.str();
 
-     std::cout << contents.c_str() << std::endl;
+    std::cout << contents.c_str() << std::endl;
     write(new_socket, contents.c_str(), contents.size());
     close(new_socket);
 }

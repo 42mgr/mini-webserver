@@ -15,16 +15,17 @@ ConfigFile::ConfigFile(const std::string configFileString) : configFile(configFi
     if (isExisting())
     {
         readConfig();
-        std::cout << "-----------------" << std::endl;
-        printServerBlocks(serverBlocks);
-        std::cout << "-----------------" << std::endl;
-        serverAt(8888)->printMapOptions();
-        std::cout << serverAt(8888)->hasPath("sdaf") << "  " << serverAt(8888)->hasPath("/cgi-bin") << " "
-                  << serverAt(8888)->hasPath("/asdf") << std::endl;
-        serverAt(8888)->printMapLocations();
         populateIpPort();
         serverCount = serverBlocks.size();
-        std::cout << "Server Blocks: " << serverCount << std::endl;
+
+
+        std::cout << "----CONFIG START-----" << std::endl;
+        printServerBlocks(serverBlocks);
+        std::cout << "-------CONFIG END-------" << std::endl;
+/*         serverAt(8888)->printMapOptions();
+        std::cout << serverAt(8888)->hasPath("sdaf") << "  " << serverAt(8888)->hasPath("/cgi-bin") << " "
+                  << serverAt(8888)->hasPath("/asdf") << std::endl;
+        serverAt(8888)->printMapLocations(); */
     }
 }
 
@@ -148,7 +149,7 @@ ServerBlock *ConfigFile::serverAt(const int socket)
             return &serverBlock;
         }
     }
-    return nullptr; // return nullptr if no ServerBlock was found with the given key
+    return nullptr;
 }
 
 std::deque<ServerBlock> ConfigFile::getServers()
@@ -156,6 +157,7 @@ std::deque<ServerBlock> ConfigFile::getServers()
     return serverBlocks;
 }
 
+// for looping through the options of ServerBlock and LocationBlock
 template <typename T>
 std::string ConfigFile::optionValue(T &block, const std::string &optionName)
 {
