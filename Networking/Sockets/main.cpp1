@@ -1,0 +1,8 @@
+#include "sockets.hpp"
+
+int main() {
+    std::cout << "Starting..." << std::endl;
+    // NTW::SimpleSocket ss; // cant be instanciated
+    std::cout << "Binding socket..." << std::endl;
+    NTW::ListeningSocket ls = NTW::ListeningSocket(AF_INET, SOCK_STREAM, 0, 8000, INADDR_ANY, 10);
+}

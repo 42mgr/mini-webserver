@@ -1,0 +1,18 @@
+#include "parser.cpp"
+
+/* int main() {
+    parseConfig("config.conf");
+
+    // Now you can use the 'servers' vector to access parsed configuration data
+    for (const auto& server : servers) {
+        std::cout << "Server listening on port " << server.listen_port << std::endl;
+        // Output other server attributes
+        for (const auto& location_pair : server.locations) {
+            const Location& location = location_pair.second;
+            std::cout << "Location: " << location.path << std::endl;
+            // Output other location attributes
+        }
+    }
+
+    return 0;
+} */
