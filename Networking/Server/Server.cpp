@@ -21,7 +21,7 @@ void NTW::Server::accepter()
 
 void NTW::Server::handler()
 {
-    // std::cout << buffer << std::endl;
+     std::cout << buffer << std::endl;
 }
 
 void NTW::Server::responder()
@@ -32,7 +32,7 @@ void NTW::Server::responder()
     buffer << file.rdbuf();
     std::string contents = buffer.str();
 
-    // std::cout << contents.c_str() << std::endl;
+     std::cout << contents.c_str() << std::endl;
     write(new_socket, contents.c_str(), contents.size());
     close(new_socket);
 }

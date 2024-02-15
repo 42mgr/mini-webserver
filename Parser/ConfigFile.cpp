@@ -1,97 +1,6 @@
-#include <algorithm>
-#include <cctype>
-#include <deque>
-#include <fstream>
-#include <iostream>
-#include <map>
-#include <set>
-#include <sstream>
-#include <string>
+#include "ConfigFile.hpp"
 
 const std::string DEFAULT_CONFIG = "../Configs/config.conf";
-
-class Connection;
-
-class LocationBlock
-{
-  public:
-    std::map<std::string, std::string> options;
-    std::string path;
-};
-
-class ServerBlock
-{
-  public:
-    std::map<std::string, std::string> options;
-    std::map<std::string, LocationBlock> locations;
-    int socket;
-    void printMapOptions();
-    void printMapLocations();
-    bool hasPath(std::string path);
-};
-
-void ServerBlock::printMapOptions()
-{
-    std::map<std::string, std::string>::iterator it;
-    for (it = options.begin(); it != options.end(); ++it)
-    {
-        std::cout << "{ '" << it->first << "', '" << it->second << "' }" << std::endl;
-    }
-}
-
-void ServerBlock::printMapLocations()
-{
-    /*     std::map<std::string, LocationBlock>::iterator it;
-        for (it = path.begin(); it != path.end(); ++it)
-        {
-            std::cout << "{ '" << it->first << "', '" << it->second.options. << "' }"<< std::endl;
-        } */
-}
-
-bool ServerBlock::hasPath(std::string path)
-{
-    return locations.find(path) != locations.end();
-}
-
-class ConfigFile
-{
-  public:
-    // ConfigFile();
-    ConfigFile(const std::string configFile);
-    ~ConfigFile();
-    std::map<std::string, Connection> getConnections();
-
-  private:
-    std::string currentLocationPath;
-    std::ifstream configFile;
-    std::deque<ServerBlock> serverBlocks;
-    std::string line;
-    ServerBlock currentServer;
-    LocationBlock currentLocation;
-    bool inLocationBlock;
-    bool isExisting();
-    void readConfig();
-    void checkToken(std::string token);
-    void populateLocations();
-
-    ServerBlock *serverAt(const int socket);
-
-    void printServersInfo();
-    void printServerBlocks(const std::deque<ServerBlock> &serverBlocks);
-    std::string trim(const std::string &str);
-};
-
-ServerBlock *ConfigFile::serverAt(const int socket)
-{
-    for (auto &serverBlock : serverBlocks)
-    {
-        if (serverBlock.socket == socket)
-        {
-            return &serverBlock;
-        }
-    }
-    return nullptr; // return nullptr if no ServerBlock was found with the given key
-}
 
 ConfigFile::~ConfigFile()
 {
@@ -113,6 +22,9 @@ ConfigFile::ConfigFile(const std::string configFileString) : configFile(configFi
         std::cout << serverAt(8888)->hasPath("sdaf") << "  " << serverAt(8888)->hasPath("/cgi-bin") << " "
                   << serverAt(8888)->hasPath("/asdf") << std::endl;
         serverAt(8888)->printMapLocations();
+        populateIpPort();
+        serverCount = serverBlocks.size();
+        std::cout << "Server Blocks: " << serverCount << std::endl;
     }
 }
 
@@ -216,7 +128,7 @@ void ConfigFile::printServerBlocks(const std::deque<ServerBlock> &serverBlocks)
 }
 /* int main()
 {
-    ConfigFile configFile("../../Configs/config.conf");
+    ConfigFile configFile("../Configs/config.conf");
 } */
 
 std::string ConfigFile::trim(const std::string &str)
@@ -225,4 +137,57 @@ std::string ConfigFile::trim(const std::string &str)
     auto end = std::find_if_not(str.rbegin(), str.rend(), ::isspace).base();
 
     return (start < end) ? std::string(start, end) : std::string();
+}
+
+ServerBlock *ConfigFile::serverAt(const int socket)
+{
+    for (auto &serverBlock : serverBlocks)
+    {
+        if (serverBlock.socket == socket)
+        {
+            return &serverBlock;
+        }
+    }
+    return nullptr; // return nullptr if no ServerBlock was found with the given key
+}
+
+std::deque<ServerBlock> ConfigFile::getServers()
+{
+    return serverBlocks;
+}
+
+template <typename T>
+std::string ConfigFile::optionValue(T &block, const std::string &optionName)
+{
+    std::map<std::string, std::string>::iterator optionsIt = block.options.find(optionName);
+    if (optionsIt != block.options.end())
+    {
+        return optionsIt->second;
+    }
+    else
+    {
+        return "";
+    }
+}
+
+void ConfigFile::populateIpPort()
+{
+    for (std::deque<ServerBlock>::iterator it = serverBlocks.begin(); it != serverBlocks.end(); ++it)
+    {
+        std::string temp = optionValue(*it, "host");
+        if (temp.empty())
+        {
+            it->serverIp = "127.0.0.1";
+        } else {
+            it->serverIp = temp;
+        }
+        temp = optionValue(*it, "listen");
+        if (temp.empty())
+        {
+            it->port = "66666";
+        } else {
+            it->port = temp;
+        }
+        std::cout << "popIpPort " << it->serverIp << ":" << it->port << std::endl;
+    }
 }

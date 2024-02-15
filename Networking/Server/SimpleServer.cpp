@@ -15,7 +15,7 @@ NTW::SimpleServer::SimpleServer(int domain, int service, int protocol, uint16_t 
 
 NTW::SimpleServer::~SimpleServer()
 {
-    delete socket;
+    //delete socket;
 }
 
 NTW::ListeningSocket *NTW::SimpleServer::get_socket()

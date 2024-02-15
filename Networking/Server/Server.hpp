@@ -18,5 +18,6 @@ class Server : public SimpleServer
     Server();
     Server(std::string interfaceIp, uint16_t port);
     Server(int domain, int service, int protocol, uint16_t port, std::string interfaceIp, int backlog);
+
 };
 } // namespace NTW

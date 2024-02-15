@@ -7,7 +7,7 @@ SRCS := $(shell find . -name "*.cpp")
 OBJS := $(SRCS:%.cpp=%.o)
 
 # Target executable
-NAME = testserver
+NAME = webserver
 
 # Main target
 $(NAME): $(OBJS)
