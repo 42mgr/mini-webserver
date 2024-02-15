@@ -9,7 +9,7 @@ namespace NTW
 class SimpleSocket
 {
   public:
-    SimpleSocket(int domain, int service, int protocol, int port, u_long interface);
+    SimpleSocket(int domain, int service, int protocol, uint16_t port, u_long interface);
     virtual int connect_to_network(int sock, struct sockaddr_in address) = 0;
     void test_connection(int);
     struct sockaddr_in get_address();

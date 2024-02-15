@@ -10,6 +10,9 @@
 # include <stdint.h>
 # include <ctime>
 
+/* CONVERSIONS */
+# include <arpa/inet.h>
+
 /* STREAM */
 # include <iostream>
 # include <sstream>

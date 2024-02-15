@@ -8,7 +8,7 @@
 #include <sstream>
 #include <string>
 
-const std::string DEFAULT_CONFIG = "config.conf";
+const std::string DEFAULT_CONFIG = "../Configs/config.conf";
 
 class Connection;
 

@@ -1,13 +1,14 @@
 #include "SimpleServer.hpp"
 #include <netinet/in.h>
 
-NTW::SimpleServer::SimpleServer(int domain, int service, int protocol, int port, u_long interface, int backlog)
+NTW::SimpleServer::SimpleServer(int domain, int service, int protocol, uint16_t port, std::string interfacIp, int backlog)
 {
-    socket = new ListeningSocket(domain, service, protocol, port, interface, backlog);
+    socket = new ListeningSocket(domain, service, protocol, port, htonl(inet_addr(interfacIp.c_str())), backlog);
 
     std::ostringstream oss;
+    //std::string ip = inet_ntoa((*(struct in_addr *)&(interface = ntohl(interface))));
     oss << "Created listening socket " << socket->get_sock() << RESET << " for " << domain << " (domain), " << service
-        << " (service), " << protocol << " (protocol), " << port << " (port), " << interface << " (interface), "
+        << " (service), " << protocol << " (protocol), " << interfacIp << ":" << port <<", "
         << backlog << " (backlog)";
     log(oss.str(), "SIMPLE SERVER ", YELLOW);
 }

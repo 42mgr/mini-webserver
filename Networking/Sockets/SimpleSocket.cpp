@@ -1,7 +1,6 @@
 #include "SimpleSocket.hpp"
 
-
-NTW::SimpleSocket::SimpleSocket(int domain, int service, int protocol, int port, u_long interface)
+NTW::SimpleSocket::SimpleSocket(int domain, int service, int protocol, uint16_t port, u_long interface)
 {
     address.sin_family = domain;
     address.sin_port = htons(port);
@@ -11,7 +10,8 @@ NTW::SimpleSocket::SimpleSocket(int domain, int service, int protocol, int port,
     test_connection(sock);
 
     std::ostringstream oss;
-    oss << "Creating socket for " << domain << " (domain), " << service << " (service), " << protocol << " (protocol)";
+    oss << "Creating socket for " << domain << " (domain), " << service << " (service), " << protocol << " (protocol), "
+        << sock << " (socket);";
     log(oss.str(), "SIMPLE SOCKET   ", RESET);
 }
 

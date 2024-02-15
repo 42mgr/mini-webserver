@@ -7,7 +7,7 @@ namespace NTW
 class BindingSocket : public SimpleSocket
 {
   public:
-    BindingSocket(int domain, int service, int protocol, int port, u_long interface);
+    BindingSocket(int domain, int service, int protocol, uint16_t port, u_long interface);
     int get_binding();
 
   private:

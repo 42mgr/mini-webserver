@@ -4,7 +4,7 @@
 
 namespace NTW
 {
-class TestServer : public SimpleServer
+class Server : public SimpleServer
 {
   private:
     void accepter();
@@ -15,7 +15,8 @@ class TestServer : public SimpleServer
 
   public:
     void launch();
-    TestServer();
-    //SimpleServer(AF_INET, SOCK_STREAM, 0, 8000, INADDR_ANY, 10
+    Server();
+    Server(std::string interfaceIp, uint16_t port);
+    Server(int domain, int service, int protocol, uint16_t port, std::string interfaceIp, int backlog);
 };
 } // namespace NTW

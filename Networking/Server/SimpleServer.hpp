@@ -8,7 +8,7 @@ namespace NTW
 class SimpleServer
 {
   public:
-    SimpleServer(int domain, int service, int protocol, int port, u_long interface, int backlog);
+    SimpleServer(int domain, int service, int protocol, uint16_t port, std::string interfaceIp, int backlog);
     virtual ~SimpleServer();
     virtual void launch() = 0;
     ListeningSocket *get_socket();
