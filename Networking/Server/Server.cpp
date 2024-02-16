@@ -25,21 +25,33 @@ void NTW::Server::handler()
 {
     std::cout << buffer << std::endl;
     Request req(buffer);
+    /* Here the request is read and the server does its job
+
+    I have thought that it is a better design if the handler() is organzing all the necessary data for the response, so that the response is "only building header and html" out of the provided information.
+
+    So something should be put between the request and the response classes. The response does way too much right now. Ideally each server receives its corresponding parser object and then does the checking if that matches with the request.
+
+    Chatty suggets:
+    - The handler is responsible for processing the incoming requests from clients.
+    - It parses the incoming requests, extracts relevant information (such as HTTP headers, request parameters, etc.), and performs the necessary actions based on the request type (e.g., serving static files, executing server-side code, querying a database, etc.).
+    - The handler may also perform authentication, authorization, and request validation tasks before processing the request further.
+
+    */
     Response res(req);
     std::string response = res.createHTTPResponse();
-    send(new_socket, response.c_str(), response.length(), 0);
+    send(new_socket, response.c_str(), response.length(), 0); // what is the difference to write()?
 }
 
 void NTW::Server::responder()
 {
 
-    std::ifstream file("./www/index.html");
-    std::stringstream buffer;
-    buffer << file.rdbuf();
-    std::string contents = buffer.str();
+    /* Response should be built here out of handler information
 
-    std::cout << contents.c_str() << std::endl;
-    write(new_socket, contents.c_str(), contents.size());
+    Chattys thoughts:
+    - The responder is responsible for generating and sending responses back to clients based on the results of request handling.
+    - It constructs HTTP responses with appropriate status codes, headers, and content (e.g., HTML, JSON, etc.).
+    - The responder sends the response back to the client over the established connection.
+     */
     close(new_socket);
 }
 
