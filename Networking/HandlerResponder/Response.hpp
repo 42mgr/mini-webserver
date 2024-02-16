@@ -4,13 +4,14 @@
 # include "Request.hpp"
 # include "../Sockets/ListeningSocket.hpp"
 # include "../../webserver.hpp"
+# include "../../Parser/ServerBlock.hpp"
 
 # define DEFAULT_ROOT "./www"
 # define DEFAULT_INDEX "index.html"
 
 class Response {
 	public:
-		Response(Request const & src);
+		Response(Request const & src, ServerBlock *serverConfig);
 		// Response(Socket const &s, Request const &req);
 		~Response();
 		const std::string createHTTPResponse(void);
@@ -33,6 +34,7 @@ class Response {
 		void initHTTPStatus(void);
 		std::string const createHeader(void);
 		std::string const createBody(void);
+        ServerBlock *serverConfig;
 };
 
 #endif

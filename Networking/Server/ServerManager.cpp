@@ -6,7 +6,7 @@ ServerManager::ServerManager(const std::string configFile) {
 
     for (int i = 0; i < config.serverCount; ++i)
     {
-        servers.emplace_back(config.serverBlocks[i].serverIp, std::stoi(config.serverBlocks[i].port));
+        servers.emplace_back(config.serverBlocks[i].serverIp, std::stoi(config.serverBlocks[i].port), &(config.serverBlocks[i]));
         pollfd temp = {servers.back().get_socket()->get_sock(), POLLIN, 0};
         fds.push_back(temp);
     }

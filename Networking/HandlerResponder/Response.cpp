@@ -4,7 +4,7 @@
 // 	/* TODO add root to socket */
 // }
 
-Response::Response(Request const &req):
+Response::Response(Request const &req, ServerBlock *serverConfig):
 _request(req),
 _root(DEFAULT_ROOT),
 _uri(req.getPath()),
@@ -18,9 +18,12 @@ _status(-1) {
 		_status = 400;
 		return;
 	}
-	if (_uri == "/")
-		_uri.append(DEFAULT_INDEX);
-	_path = _root + _uri;
+	if (serverConfig->hasPath(_uri)){
+        _uri.append("/");
+        _uri.append(DEFAULT_INDEX);
+        _uri = serverConfig->getPathFor(_uri);
+    }
+    _path = _root + _uri;
 	// std::cout << "Response::_uri: " << _uri << std::endl;
 	std::ifstream file(_path.c_str());
 	if (file.is_open()) {

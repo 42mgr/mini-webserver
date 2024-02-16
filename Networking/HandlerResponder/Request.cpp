@@ -6,7 +6,7 @@
 /*   By: mgraf <mgraf@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 15:22:53 by tfregni           #+#    #+#             */
-/*   Updated: 2024/02/15 22:16:01 by mgraf            ###   ########.fr       */
+/*   Updated: 2024/02/16 11:23:18 by mgraf            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,16 +162,18 @@ bool Request::parseAttributes(std::string const attr) {
 		return (false);
 	}
 	_path = sanitizePath(iss);
-	if (_path.find("?", 0) != std::string::npos) {
-		// std::cout << "Found query" << std::endl;
+/*     log("INFO", _path, CYAN);
+    if (_path.find("?", 0) != std::string::npos)
+    {
+        // std::cout << "Found query" << std::endl;
 		std::string query = _path.substr(_path.find("?", 0) + 1);
 		_path = _path.substr(0, _path.find("?", 0));
 		if (!parseQuery(query)) {
 			_req_status = INVALID_QUERY;
 			return (false);
 		}
-	}
-	iss >> _protocol;
+    } */
+    iss >> _protocol;
 	if (iss.fail() || strncmp(_protocol.c_str(), "HTTP/", 5) != 0) {
 		_req_status = INVALID_PROTOCOL;
 		return false;

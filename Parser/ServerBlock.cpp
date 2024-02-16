@@ -23,3 +23,7 @@ bool ServerBlock::hasPath(std::string path)
     return locations.find(path) != locations.end();
 }
 
+
+std::string ServerBlock::getPathFor(std::string uri) {
+    return "/index.html";
+}
